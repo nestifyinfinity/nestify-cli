@@ -1,0 +1,229 @@
+#!/bin/bash
+KEY="APIKEY"
+ENDPOINT="https://nestifyinfinity.com/dashboard/api"
+
+function site()
+{
+	case "$1" in
+		  create)
+		  shift
+		  site_create $1 $2
+		  ;;
+	  
+		  delete)
+		  shift
+		  site_delete $1 $2
+		  ;;
+		  
+		  list)
+		  shift
+		  site_list $1 $2
+		  ;;
+		  
+		  deploytotest)
+		  shift
+		  site_deploytotest $1 "$2"
+		  ;;
+		  
+		  deploytolive)
+		  shift
+		  site_deploytolive $1 "$2"
+		  ;;	  
+	
+		  *)  # No more options
+		  echo "Invalid action site $1"
+		  exit 1
+		  ;;
+	esac
+}
+
+function env()
+{
+	case "$1" in
+		  create)
+		  shift
+		  env_create $1 $2
+		  ;;
+	  
+		  delete)
+		  shift
+		  env_delete $1
+		  ;;
+		  
+		  list)
+		  shift
+		  env_list $1
+		  ;;
+		  
+		  gitlog)
+		  shift
+		  env_gitlog $1
+		  ;;
+		  
+		  gitstatus)
+		  shift
+		  env_gitstatus $1
+		  ;;
+		  
+		  gitcommit)
+		  shift
+		  env_gitcommit $1 "$2"
+		  ;;  
+		  
+		  codeprogress)
+		  shift
+		  env_codeprogress $1
+		  ;;
+		  
+		  composerinstall)
+		  shift
+		  env_composerinstall $1
+		  ;;
+		  
+		  composerupdate)
+		  shift
+		  env_composerupdate $1
+		  ;;
+		  
+		  mergefrommaster)
+		  shift
+		  env_mergefrommaster $1
+		  ;;
+		  
+		  mergetomaster)
+		  shift
+		  env_mergetomaster $1
+		  ;;
+		  
+		  deploylog)
+		  shift
+		  env_deploylog $1
+		  ;;
+		  
+		  rollback)
+		  shift
+		  env_rollback $1 $2
+		  ;;
+	
+		  *)  # No more options
+		  echo "Invalid action env $1"
+		  exit 1
+		  ;;
+	esac
+}
+
+function site_create()
+{
+	curl $ENDPOINT/createsite -H "Key: $KEY"
+}
+
+function site_delete()
+{
+	curl $ENDPOINT/deletesite/$1 -H "Key: $KEY"
+}
+
+function site_list()
+{
+	curl $ENDPOINT/listsites -H "Key: $KEY"
+}
+
+function site_deploytotest()
+{
+	curl $ENDPOINT/deploytotest -H "Key: $KEY" -d "site=$1" -d "msg=$2"
+}
+
+function site_deploytolive()
+{
+	curl $ENDPOINT/deploytolive -H "Key: $KEY" -d "site=$1" -d "msg=$2"
+}
+
+function env_create()
+{
+	curl $ENDPOINT/createenv -H "Key: $KEY" -d "site=$1&env=$2"
+}
+
+function env_delete()
+{
+	curl $ENDPOINT/deleteenv -H "Key: $KEY" -d "env=$1"
+}
+
+function env_list()
+{
+	curl $ENDPOINT/listenv -H "Key: $KEY" -d "site=$1"
+}
+
+function env_gitlog()
+{
+	curl $ENDPOINT/gitlog -H "Key: $KEY" -d "env=$1"
+}
+
+function env_gitstatus()
+{
+	curl $ENDPOINT/gitstatus -H "Key: $KEY" -d "env=$1"
+}
+
+function env_gitcommit()
+{
+	curl $ENDPOINT/gitcommit -H "Key: $KEY" -d "env=$1" -d "msg=$2"
+}
+
+function env_codeprogress()
+{
+	curl $ENDPOINT/codeprogress -H "Key: $KEY" -d "env=$1"
+}
+
+function env_composerinstall()
+{
+	curl $ENDPOINT/composerinstall -H "Key: $KEY" -d "env=$1"
+}
+
+function env_composerupdate()
+{
+	curl $ENDPOINT/composerupdate -H "Key: $KEY" -d "env=$1"
+}
+
+function env_mergefrommaster()
+{
+	curl $ENDPOINT/gitmergefrommaster -H "Key: $KEY" -d "env=$1"
+}
+
+function env_mergetomaster()
+{
+	curl $ENDPOINT/gitmergetomaster -H "Key: $KEY" -d "env=$1"
+}
+
+function env_deploylog()
+{
+	curl $ENDPOINT/deploylog -H "Key: $KEY" -d "env=$1"
+}
+
+function env_rollback()
+{
+	curl $ENDPOINT/rollback -H "Key: $KEY" -d "env=$1&hash=$2"
+}
+
+function importdb()
+{
+	curl $ENDPOINT/importdb -H "Key: $KEY" -d "fromenv=$1&toenv=$2"
+}
+
+case "$1" in
+      site)
+	  shift
+	  site $1 $2 "$3"
+	  ;;
+  
+	  env)
+	  shift
+	  env $1 $2 "$3"
+	  ;;
+	  
+	  importdb)
+	  shift
+	  importdb $1 $2
+	  ;;	  
+
+      *)  # No more options
+	  echo "Invalid action $1"
+	  ;;
+esac
