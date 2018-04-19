@@ -10,7 +10,17 @@ Download the script:
     wget https://raw.githubusercontent.com/nestifyinfinity/nestify-cli/master/nestify-cli;
     chmod 700 nestify-cli
 
-Open nestify-cli in a text editor and set appropriate API key on line 2. API keys can be found at https://nestifyinfinity.com/dashboard/settings
+Authentication (Recommended method):
+
+Store your API key in environmental variable NESTIFY_CLI_KEY 
+
+    export NESTIFY_CLI_KEY=REPLACE_WITH_YOUR_API_KEY
+
+Authentication (Alternate method):
+
+Open nestify-cli in a text editor and set appropriate API key on line 2. Make sure to leave the - prefix in place while entering your key. 
+
+API keys can be found at https://nestifyinfinity.com/dashboard/settings
 
 ## Command structure
 
