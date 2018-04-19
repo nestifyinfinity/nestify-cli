@@ -207,6 +207,11 @@ function importdb()
 	curl $ENDPOINT/importdb -H "Key: $KEY" -d "fromenv=$1&toenv=$2"
 }
 
+function importfiles()
+{
+	curl $ENDPOINT/importfiles -H "Key: $KEY" -d "fromenv=$1&toenv=$2"
+}
+
 case "$1" in
       site)
 	  shift
@@ -221,6 +226,11 @@ case "$1" in
 	  importdb)
 	  shift
 	  importdb $1 $2
+	  ;;
+
+	  importfiles)
+	  shift
+	  importfiles $1 $2
 	  ;;	  
 
       *)  # No more options
