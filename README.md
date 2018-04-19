@@ -146,3 +146,9 @@ Imports database from another environment to specified environment
 
     nestify-cli importdb <from envname> <to envname>
     nestify-cli importdb site13123-live site13123-test
+    
+## Import files from another environment
+Imports upload files from another environment to specified environment
+
+    nestify-cli importfiles <from envname> <to envname>
+    nestify-cli importfiles site13123-live site13123-test
